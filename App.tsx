@@ -1,11 +1,52 @@
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { colors } from './src/theme/colors';
+
+// Components
+import SplashScreen from './src/components/SplashScreen';
+import OnboardingScreen from './src/components/OnboardingScreen';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
+
+  useEffect(() => {
+    // Simulate app initialization
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleOnboardingComplete = () => {
+    setHasSeenOnboarding(true);
+  };
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="light" />
+        <SplashScreen />
+      </View>
+    );
+  }
+
+  if (!hasSeenOnboarding) {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="light" />
+        <OnboardingScreen onComplete={handleOnboardingComplete} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
+      <AppNavigator />
     </View>
   );
 }
@@ -13,8 +54,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.background.primary,
   },
 });
