@@ -9,6 +9,7 @@ import { colors } from '../theme/colors';
 import DashboardScreen from '../screens/DashboardScreen';
 import SampleUploadScreen from '../screens/SampleUploadScreen';
 import ResultsScreen from '../screens/ResultsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -89,7 +90,7 @@ const AppNavigator: React.FC = () => {
         />
         <Tab.Screen
           name="Profile"
-          component={DashboardScreen} // Placeholder
+          component={ProfileScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Text style={{ color, fontSize: size }}>👤</Text>

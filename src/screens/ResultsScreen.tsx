@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../theme/colors';
 import { ColorValue } from 'react-native';
@@ -28,6 +29,7 @@ interface BiodiversityMetrics {
 
 const ResultsScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'taxonomy' | 'insights' | 'network'>('overview');
+  const navigation = useNavigation<any>();
 
   // Mock data - in real app this would come from API
   const taxonomicData: TaxonomicData[] = [
@@ -302,6 +304,25 @@ const ResultsScreen: React.FC = () => {
 
       {renderTabBar()}
       {renderTabContent()}
+
+      {/* Footer Navigation */}
+      <View style={styles.footerNav}>
+        <TouchableOpacity
+          style={[styles.navButton, styles.backButton]}
+          onPress={() => navigation.navigate('Upload')}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.navButtonText}>← Back to Upload</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.navButton, styles.nextButton]}
+          onPress={() => setActiveTab('insights')}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.navButtonText}>Continue to Insights →</Text>
+        </TouchableOpacity>
+      </View>
     </LinearGradient>
   );
 };
@@ -356,6 +377,34 @@ const styles = StyleSheet.create({
   tabContent: {
     flex: 1,
     paddingHorizontal: 20,
+  },
+  footerNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderTopWidth: 1,
+    borderTopColor: colors.background.tertiary,
+    backgroundColor: String(colors.background.surface) + 'AA',
+  },
+  navButton: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  backButton: {
+    marginRight: 8,
+    backgroundColor: colors.background.card,
+  },
+  nextButton: {
+    marginLeft: 8,
+    backgroundColor: colors.primary.lightTeal,
+  },
+  navButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.text.primary,
   },
   summaryCard: {
     backgroundColor: colors.background.card,
